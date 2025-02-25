@@ -1,30 +1,35 @@
 #!/bin/bash
 
 RELEASE_DIR='./docker';
-REPO_NAME='doocs/md'
+REPO_NAME='ghcr.io/doocs/md'
 
+echo "Images have been built and pushed to GitHub Container Registry (GHCR)"
+echo "Repository: $REPO_NAME"
+
+# 列出已构建并推送的镜像
 for app_ver in $RELEASE_DIR/*; do
-
-    tag=$(echo $app_ver | cut -b 10-);
-
-    if [ -f "$app_ver/Dockerfile.base" ]; then
-        # 推送构建产物，方便其他的用户和爱好者进行二次封装
-        docker push $REPO_NAME:$tag-assets
+    if [ -f "$app_ver/.env" ]; then
+        . "$app_ver/.env"
+        echo "----------------"
+        echo "Version: $VER_APP"
+        
+        if [ -f "$app_ver/Dockerfile.base" ]; then
+            echo "- $REPO_NAME:$VER_APP-assets"
+        fi
+        
+        if [ -f "$app_ver/Dockerfile.standalone" ]; then
+            echo "- $REPO_NAME:$VER_APP"
+        fi
+        
+        if [ -f "$app_ver/Dockerfile.nginx" ]; then
+            echo "- $REPO_NAME:$VER_APP-nginx"
+        fi
+        
+        if [ -f "$app_ver/Dockerfile.static" ]; then
+            echo "- $REPO_NAME:$VER_APP-static"
+        fi
     fi
-
-    if [ -f "$app_ver/Dockerfile.standalone" ]; then
-        # 推送单个二进制的镜像
-        docker push $REPO_NAME:$tag
-    fi
-
-    if [ -f "$app_ver/Dockerfile.nginx" ]; then
-        # 推送使用 Nginx 的镜像
-        docker push $REPO_NAME:$tag-nginx
-    fi
-
-    if [ -f "$app_ver/Dockerfile.static" ]; then
-        # 推送使用 lipanski/docker-static-website 的镜像
-        docker push $REPO_NAME:$tag-static
-    fi
-
 done
+
+echo "----------------"
+echo "所有多架构镜像已成功构建并推送到 GHCR"
