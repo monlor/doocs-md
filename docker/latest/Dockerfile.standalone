@@ -12,6 +12,6 @@ RUN go build -ldflags "-w -s" -o md main.go
 
 FROM "alpine:$VER_ALPINE"
 LABEL MAINTAINER="ylb<contact@yanglibin.info>"
-COPY --from=gobuilder /app/md.minify /bin/md
+COPY --from=gobuilder /app/md /bin/md
 EXPOSE 80
 CMD ["md"]
