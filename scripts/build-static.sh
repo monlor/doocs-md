@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RELEASE_DIR='./docker';
-REPO_NAME='ghcr.io/doocs/md'
+REPO_NAME='ghcr.io/monlor/md'
 PLATFORMS='linux/amd64,linux/arm64'
 
 for app_ver in $RELEASE_DIR/*; do

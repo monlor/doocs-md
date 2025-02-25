@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RELEASE_DIR='./docker';
-REPO_NAME='ghcr.io/doocs/md'
+REPO_NAME='ghcr.io/monlor/md'
 
 echo "Images have been built and pushed to GitHub Container Registry (GHCR)"
 echo "Repository: $REPO_NAME"
